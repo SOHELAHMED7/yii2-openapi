@@ -1,0 +1,61 @@
+openapi: 3.0.3
+# Edit this schema and start your project
+# This is sample schema
+# To generate code which is based on this schema
+# run commands mentioned Development section in README.md file
+info:
+  title: 'Proxy-Service'
+  description: ""
+  version: 1.0.0
+  contact:
+    name: '...'
+    email: you@example.com
+servers:
+  - url: 'http://localhost:9937'
+    description: 'Local Dev API'
+security:
+  - BasicAuth: []
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  schemas:
+
+    Subscription:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+        start:
+          type: string
+          format: date-time
+        end:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+          readOnly: True
+        updatedAt:
+          type: string
+          format: date-time
+          readOnly: true
+        updatedAt2: # <------------ new column
+          type: string
+          format: date-time
+          readOnly: true
+
+paths:
+  '/accounts':
+
+    post:
+      operationId: createAccount
+      summary: Create a account
+      description: Create account
+
+      responses:
+        '201':
+          description: OK
