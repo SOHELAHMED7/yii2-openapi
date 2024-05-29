@@ -290,6 +290,7 @@ class IssueFixTest extends DbTestCase
     // 163_generator_crash_when_using_reference_inside_an_object
     public function test163GeneratorCrashWhenUsingReferenceInsideAnObject()
     {
+        $this->changeDbToPgsql();
         $testFile = Yii::getAlias("@specs/issue_fix/163_generator_crash_when_using_reference_inside_an_object/index.php");
         $this->runGenerator($testFile, 'pgsql');
         $actualFiles = FileHelper::findFiles(Yii::getAlias('@app'), [
@@ -305,6 +306,7 @@ class IssueFixTest extends DbTestCase
     // Bug: allOf with multiple $refs
     public function test175BugAllOfWithMultipleDollarRefs()
     {
+        $this->changeDbToPgsql();
         $testFile = Yii::getAlias("@specs/issue_fix/175_bug_allof_with_multiple_dollarrefs/index.php");
         $this->runGenerator($testFile, 'pgsql');
         $actualFiles = FileHelper::findFiles(Yii::getAlias('@app'), [
@@ -320,6 +322,7 @@ class IssueFixTest extends DbTestCase
     // schema.yaml: requestBody has no effect
     public function test172SchemayamlRequestBodyHasNoEffect()
     {
+        $this->changeDbToPgsql();
         $testFile = Yii::getAlias("@specs/issue_fix/172_schemayaml_requestbody_has_no_effect/index.php");
         $this->runGenerator($testFile, 'pgsql');
         $actualFiles = FileHelper::findFiles(Yii::getAlias('@app'), [

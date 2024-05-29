@@ -5,7 +5,7 @@
  */
 class m200000_000002_create_table_payment_methods extends \yii\db\Migration
 {
-    public function up()
+    public function safeUp()
     {
         $this->createTable('{{%payment_methods}}', [
             'id' => $this->primaryKey(),
@@ -14,7 +14,7 @@ class m200000_000002_create_table_payment_methods extends \yii\db\Migration
         $this->createIndex('payment_methods_name_key', '{{%payment_methods}}', 'name', true);
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropIndex('payment_methods_name_key', '{{%payment_methods}}');
         $this->dropTable('{{%payment_methods}}');
