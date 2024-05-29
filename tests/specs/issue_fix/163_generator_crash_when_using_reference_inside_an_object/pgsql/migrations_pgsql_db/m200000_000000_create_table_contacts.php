@@ -5,14 +5,14 @@
  */
 class m200000_000000_create_table_contacts extends \yii\db\Migration
 {
-    public function up()
+    public function safeUp()
     {
         $this->createTable('{{%contacts}}', [
             'id' => $this->primaryKey(),
         ]);
     }
 
-    public function down()
+    public function safeDown()
     {
         $this->dropTable('{{%contacts}}');
     }

@@ -290,6 +290,7 @@ class IssueFixTest extends DbTestCase
     // 163_generator_crash_when_using_reference_inside_an_object
     public function test163GeneratorCrashWhenUsingReferenceInsideAnObject()
     {
+        $this->changeDbToPgsql();
         $testFile = Yii::getAlias("@specs/issue_fix/163_generator_crash_when_using_reference_inside_an_object/index.php");
         $this->runGenerator($testFile, 'pgsql');
         $actualFiles = FileHelper::findFiles(Yii::getAlias('@app'), [
@@ -305,6 +306,7 @@ class IssueFixTest extends DbTestCase
     // Bug: allOf with multiple $refs
     public function test175BugAllOfWithMultipleDollarRefs()
     {
+        $this->changeDbToPgsql();
         $testFile = Yii::getAlias("@specs/issue_fix/175_bug_allof_with_multiple_dollarrefs/index.php");
         $this->runGenerator($testFile, 'pgsql');
         $actualFiles = FileHelper::findFiles(Yii::getAlias('@app'), [
@@ -320,6 +322,7 @@ class IssueFixTest extends DbTestCase
     // schema.yaml: requestBody has no effect
     public function test172SchemayamlRequestBodyHasNoEffect()
     {
+        $this->changeDbToPgsql();
         $testFile = Yii::getAlias("@specs/issue_fix/172_schemayaml_requestbody_has_no_effect/index.php");
         $this->runGenerator($testFile, 'pgsql');
         $actualFiles = FileHelper::findFiles(Yii::getAlias('@app'), [
@@ -329,5 +332,39 @@ class IssueFixTest extends DbTestCase
             'recursive' => true,
         ]);
         $this->checkFiles($actualFiles, $expectedFiles);
+    }
+
+    // https://github.com/cebe/yii2-openapi/issues/161
+    // Bug with "format: date-time"
+    public function test161BugWithFormatDateTime()
+    {
+        $this->changeDbToPgsql();
+        $testFile = Yii::getAlias("@specs/issue_fix/161_bug_with_format_date_time/index.php");
+        $this->f161();
+        $this->runGenerator($testFile, 'pgsql');
+//        $actualFiles = FileHelper::findFiles(Yii::getAlias('@app'), [
+//            'recursive' => true,
+//        ]);
+//        $expectedFiles = FileHelper::findFiles(Yii::getAlias("@specs/issue_fix/172_schemayaml_requestbody_has_no_effect/pgsql"), [
+//            'recursive' => true,
+//        ]);
+//        $this->checkFiles($actualFiles, $expectedFiles);
+    }
+
+    protected function f161() // TODO rename
+    {
+        $sql = <<<SQL
+            create table public.itt_subscriptions
+            (
+                id          serial,
+                start       timestamp(0) default NULL::timestamp without time zone,
+                "end"       timestamp(0) default NULL::timestamp without time zone,
+                "createdAt" timestamp(0) default NULL::timestamp without time zone,
+                "updatedAt" timestamp(0) default NULL::timestamp without time zone
+
+            )
+
+        SQL;
+        Yii::$app->pgsql->createCommand($sql)->execute();
     }
 }
