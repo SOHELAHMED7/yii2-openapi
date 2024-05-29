@@ -76,6 +76,10 @@ class MultiDbFreshMigrationTest extends DbTestCase
         }
     }
 
+    /**
+     * @param $configFile
+     * @param $dbName string enum(mysql, pgsql, maria)
+     */
     protected function runGenerator($configFile, string $dbName = 'mysql')
     {
         $config = require $configFile;
